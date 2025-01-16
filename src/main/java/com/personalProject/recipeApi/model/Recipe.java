@@ -25,7 +25,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
 
@@ -42,8 +41,6 @@ public class Recipe {
 
   @Column(nullable = false)
   private String username;
-
-
 
   @Column(nullable = false)
   private Integer minutesToMake;
