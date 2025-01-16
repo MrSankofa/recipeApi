@@ -61,21 +61,15 @@ public class ReviewController {
       @RequestBody Review review,
       @PathVariable("recipeId") Long recipeId) {
     try {
-      // check if the review username is the same as the username on the recipe
-      Recipe foundRecipe = recipeService.getRecipeById(recipeId);
+      Recipe insertedRecipe = reviewService.postNewReview(review, recipeId);
+      return ResponseEntity.created(insertedRecipe.getLocationURI()).body(insertedRecipe);
 
-      if(foundRecipe.getUsername().equals(review.getUsername())){
-        return ResponseEntity.badRequest().body("You cannot submit a review for a recipe you created buster!!");
-      }
-
-      Recipe insertedRecipe =
-          reviewService.postNewReview(review, recipeId);
-      return ResponseEntity.created(
-          insertedRecipe.getLocationURI()).body(insertedRecipe);
     } catch (NoSuchRecipeException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
+
+
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteReviewById(

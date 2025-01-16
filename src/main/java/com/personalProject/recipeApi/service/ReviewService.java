@@ -2,6 +2,7 @@ package com.personalProject.recipeApi.service;
 
 import com.personalProject.recipeApi.exceptions.NoSuchRecipeException;
 import com.personalProject.recipeApi.exceptions.NoSuchReviewException;
+import com.personalProject.recipeApi.exceptions.SelfReviewNotAllowedException;
 import com.personalProject.recipeApi.model.Recipe;
 import com.personalProject.recipeApi.model.Review;
 import com.personalProject.recipeApi.repository.ReviewRepo;
@@ -54,8 +55,14 @@ public class ReviewService {
     return reviews;
   }
 
-  public Recipe postNewReview(Review review, Long recipeId)
-      throws NoSuchRecipeException {
+  public Recipe postNewReview(Review review, Long recipeId) throws NoSuchRecipeException, SelfReviewNotAllowedException {
+    // check if the review username is the same as the username on the recipe
+    Recipe foundRecipe = recipeService.getRecipeById(recipeId);
+
+    if (foundRecipe.getUsername().equals(review.getUsername())) {
+      throw new SelfReviewNotAllowedException("You cannot submit a review for a recipe you created.");
+    }
+
     Recipe recipe = recipeService.getRecipeById(recipeId);
     recipe.getReviews().add(review);
     recipeService.updateRecipe(recipe, false);
