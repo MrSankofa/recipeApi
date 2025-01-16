@@ -21,8 +21,7 @@ public class RecipeService {
   ReviewRepo reviewRepo;
 
   @Transactional
-  public Recipe createNewRecipe(Recipe recipe)
-      throws IllegalStateException {
+  public Recipe createNewRecipe(Recipe recipe) throws IllegalStateException {
     recipe.validate();
     recipe = recipeRepo.save(recipe);
     recipe.generateLocationURI();

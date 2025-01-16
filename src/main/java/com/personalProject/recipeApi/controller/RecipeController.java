@@ -5,14 +5,18 @@ import com.personalProject.recipeApi.model.Recipe;
 import com.personalProject.recipeApi.service.RecipeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/recipes")
+@Validated
 public class RecipeController {
 
   @Autowired
@@ -25,6 +29,8 @@ public class RecipeController {
       return ResponseEntity.created(
           insertedRecipe.getLocationURI()).body(insertedRecipe);
     } catch (IllegalStateException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    } catch ( DataIntegrityViolationException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
