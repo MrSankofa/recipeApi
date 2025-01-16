@@ -40,6 +40,9 @@ public class Recipe {
   @Column(nullable = false)
   private String name;
 
+  @Column(nullable = false)
+  private String username;
+
 
 
   @Column(nullable = false)
@@ -158,6 +161,14 @@ public class Recipe {
 
   public URI getLocationURI() {
     return locationURI;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
 }
