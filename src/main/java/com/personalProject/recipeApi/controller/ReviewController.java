@@ -4,6 +4,7 @@ import com.personalProject.recipeApi.exceptions.NoSuchRecipeException;
 import com.personalProject.recipeApi.exceptions.NoSuchReviewException;
 import com.personalProject.recipeApi.model.Recipe;
 import com.personalProject.recipeApi.model.Review;
+import com.personalProject.recipeApi.service.RecipeService;
 import com.personalProject.recipeApi.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ public class ReviewController {
 
   @Autowired
   ReviewService reviewService;
+
+  @Autowired
+  RecipeService recipeService;
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getReviewById(@PathVariable("id") Long id) {
@@ -57,6 +61,13 @@ public class ReviewController {
       @RequestBody Review review,
       @PathVariable("recipeId") Long recipeId) {
     try {
+      // check if the review username is the same as the username on the recipe
+      Recipe foundRecipe = recipeService.getRecipeById(recipeId);
+
+      if(foundRecipe.getUsername().equals(review.getUsername())){
+        return ResponseEntity.badRequest().body("You cannot submit a review for a recipe you created buster!!");
+      }
+
       Recipe insertedRecipe =
           reviewService.postNewReview(review, recipeId);
       return ResponseEntity.created(
