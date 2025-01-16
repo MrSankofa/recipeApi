@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+// TODO: Question I had a payload that was incorrect where the ingredients were a list of strings instead of a list of ingredient objects and I recieved a 500 instead of a 400. How do I fix that?
 
-@Entity
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 /**
  * @version 1.0
  * @since 2025-01-16
@@ -26,14 +21,26 @@ import java.util.List;
  * Regulates the difficulty rating of recipes.
  * Defines a validate() method to check the recipe object has both at least one ingredient and step.
  */
+@Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 
   @Id
   @GeneratedValue
   private Long id;
 
+  public Long getId() {
+    return id;
+  }
+
   @Column(nullable = false)
   private String name;
+
+
 
   @Column(nullable = false)
   private Integer minutesToMake;
@@ -63,7 +70,7 @@ public class Recipe {
 
   public double averageRating() {
     int totalRatings = reviews.size();
-    double sumOfRatings = reviews.stream().mapToDouble(Review::getRating).sum();
+    int sumOfRatings = reviews.stream().mapToInt(review -> review.getRating()).sum();
 
     return sumOfRatings / totalRatings;
   }
@@ -101,4 +108,53 @@ public class Recipe {
       // exception should stop here.
     }
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Integer getMinutesToMake() {
+    return minutesToMake;
+  }
+
+  public void setMinutesToMake(Integer minutesToMake) {
+    this.minutesToMake = minutesToMake;
+  }
+
+  public Integer getDifficultyRating() {
+    return difficultyRating;
+  }
+
+  public void setDifficultyRating(Integer difficultyRating) {
+    this.difficultyRating = difficultyRating;
+  }
+
+  public Collection<Ingredient> getIngredients() {
+    return ingredients;
+  }
+
+  public void setIngredients(Collection<Ingredient> ingredients) {
+    this.ingredients = ingredients;
+  }
+
+  public Collection<Step> getSteps() {
+    return steps;
+  }
+
+  public void setSteps(Collection<Step> steps) {
+    this.steps = steps;
+  }
+
+  public void setReviews(Collection<Review> reviews) {
+    this.reviews = reviews;
+  }
+
+  public URI getLocationURI() {
+    return locationURI;
+  }
+
 }

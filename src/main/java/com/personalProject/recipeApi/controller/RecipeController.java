@@ -28,11 +28,10 @@ public class RecipeController {
     }
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getRecipeById(@PathVariable("id") Long id) {
+  @GetMapping
+  public ResponseEntity<?> getAllRecipes() {
     try {
-      Recipe recipe = recipeService.getRecipeById(id);
-      return ResponseEntity.ok(recipe);
+      return ResponseEntity.ok(recipeService.getAllRecipes());
     } catch (NoSuchRecipeException e) {
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
@@ -40,10 +39,22 @@ public class RecipeController {
     }
   }
 
-  @GetMapping
-  public ResponseEntity<?> getAllRecipes() {
+  @GetMapping("/rating/{min}")
+  public ResponseEntity<?> getAllRecipesByRating(@PathVariable int min) {
     try {
-      return ResponseEntity.ok(recipeService.getAllRecipes());
+      return ResponseEntity.ok(recipeService.getAllRecipesByRating(min));
+    } catch (NoSuchRecipeException e) {
+      return ResponseEntity
+          .status(HttpStatus.NOT_FOUND)
+          .body(e.getMessage());
+    }
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getRecipeById(@PathVariable("id") Long id) {
+    try {
+      Recipe recipe = recipeService.getRecipeById(id);
+      return ResponseEntity.ok(recipe);
     } catch (NoSuchRecipeException e) {
       return ResponseEntity
           .status(HttpStatus.NOT_FOUND)
@@ -65,6 +76,19 @@ public class RecipeController {
     }
   }
 
+
+  @PatchMapping
+  public ResponseEntity<?> updateRecipe(
+      @RequestBody Recipe updatedRecipe) {
+    try {
+      Recipe returnedUpdatedRecipe =
+          recipeService.updateRecipe(updatedRecipe, true);
+      return ResponseEntity.ok(returnedUpdatedRecipe);
+    } catch (NoSuchRecipeException | IllegalStateException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteRecipeById(
       @PathVariable("id") Long id) {
@@ -75,18 +99,6 @@ public class RecipeController {
               " and name " + deletedRecipe.getName() +
               " was deleted.");
     } catch (NoSuchRecipeException e) {
-      return ResponseEntity.badRequest().body(e.getMessage());
-    }
-  }
-
-  @PatchMapping
-  public ResponseEntity<?> updateRecipe(
-      @RequestBody Recipe updatedRecipe) {
-    try {
-      Recipe returnedUpdatedRecipe =
-          recipeService.updateRecipe(updatedRecipe, true);
-      return ResponseEntity.ok(returnedUpdatedRecipe);
-    } catch (NoSuchRecipeException | IllegalStateException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }

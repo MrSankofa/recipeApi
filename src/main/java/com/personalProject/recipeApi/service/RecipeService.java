@@ -3,6 +3,7 @@ package com.personalProject.recipeApi.service;
 import com.personalProject.recipeApi.model.Recipe;
 import com.personalProject.recipeApi.repository.RecipeRepo;
 import com.personalProject.recipeApi.exceptions.*;
+import com.personalProject.recipeApi.repository.ReviewRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class RecipeService {
 
   @Autowired
   RecipeRepo recipeRepo;
+
+  @Autowired
+  ReviewRepo reviewRepo;
 
   @Transactional
   public Recipe createNewRecipe(Recipe recipe)
@@ -58,6 +62,16 @@ public class RecipeService {
       throw new NoSuchRecipeException(
           "There are no recipes yet :( feel free to add one.");
     }
+    return recipes;
+  }
+
+  public List<Recipe> getAllRecipesByRating(int rating) throws NoSuchRecipeException {
+    List<Recipe> recipes = reviewRepo.findAllByRatingGreaterThanEqual(rating);
+
+    if (recipes.isEmpty()) {
+      throw new NoSuchRecipeException("Could not find any recipes with rating " + rating);
+    }
+
     return recipes;
   }
 
