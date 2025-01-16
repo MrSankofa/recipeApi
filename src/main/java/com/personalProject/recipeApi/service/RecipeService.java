@@ -85,6 +85,16 @@ public class RecipeService {
     return recipes;
   }
 
+  public List<Recipe> getAllRecipesByUsername(String username) throws NoSuchRecipeException {
+    List<Recipe> recipes = recipeRepo.findRecipeByUsername(username);
+
+    if (recipes.isEmpty()) {
+      throw new NoSuchRecipeException("Could not find any recipes made by this user: " + username);
+    }
+
+    return recipes;
+  }
+
   @Transactional
   public Recipe deleteRecipeById(Long id) throws NoSuchRecipeException {
     try {
