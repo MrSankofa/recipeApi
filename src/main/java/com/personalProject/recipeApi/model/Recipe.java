@@ -61,6 +61,13 @@ public class Recipe {
     return new ArrayList<>(reviews); // Convert to a List
   }
 
+  public double averageRating() {
+    int totalRatings = reviews.size();
+    double sumOfRatings = reviews.stream().mapToDouble(Review::getRating).sum();
+
+    return sumOfRatings / totalRatings;
+  }
+
   public void setDifficultyRating(int difficultyRating) {
     if (difficultyRating < 0 || difficultyRating > 10) {
       throw new IllegalStateException(
