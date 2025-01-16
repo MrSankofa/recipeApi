@@ -77,6 +77,18 @@ public class RecipeController {
     }
   }
 
+  @GetMapping("/search/{name}/difficulty")
+  public ResponseEntity<?> getRecipesByDifficulty(@PathVariable("name") String name, @RequestParam Integer maxDifficulty) {
+    try {
+      List<Recipe> matchingRecipes = recipeService.getAllRecipesByMaxDifficulty(name, maxDifficulty);
+      return ResponseEntity.ok(matchingRecipes);
+    } catch (NoSuchRecipeException e) {
+      return ResponseEntity
+          .status(HttpStatus.NOT_FOUND)
+          .body(e.getMessage());
+    }
+  }
+
 
   @PatchMapping
   public ResponseEntity<?> updateRecipe(

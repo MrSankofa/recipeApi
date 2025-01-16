@@ -64,6 +64,9 @@ public class Recipe {
   @JsonIgnore
   private URI locationURI;
 
+  // Default constructor
+  public Recipe() {}
+
   public List<Review> getReviews() {
     return new ArrayList<>(reviews); // Convert to a List
   }
