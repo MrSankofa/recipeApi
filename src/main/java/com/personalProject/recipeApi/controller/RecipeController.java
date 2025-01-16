@@ -95,6 +95,19 @@ public class RecipeController {
     }
   }
 
+  @GetMapping("/search/username/{username}")
+  public ResponseEntity<?> getRecipesByUsername(@PathVariable("username") String username) {
+    try {
+      List<Recipe> matchingRecipes = recipeService.getAllRecipesByUsername(username);
+      return ResponseEntity.ok(matchingRecipes);
+
+    } catch (NoSuchRecipeException e) {
+      return ResponseEntity
+          .status(HttpStatus.NOT_FOUND)
+          .body(e.getMessage());
+    }
+  }
+
 
   @PatchMapping
   public ResponseEntity<?> updateRecipe(
