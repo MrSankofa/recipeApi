@@ -11,5 +11,7 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 
   List<Recipe> findByNameContainingIgnoreCase(String name);
 
-  List<Recipe> findAllByReviews_RatingGreaterThanEqual(int rating);
+  // findDistinctBy: Ensures that recipes are not duplicated if they have multiple matching reviews.
+  //"SELECT DISTINCT r FROM Recipe r JOIN r.reviews rev WHERE rev.rating >= :rating")
+  List<Recipe> findDistinctByReviews_RatingGreaterThanEqual(int rating);
 }
