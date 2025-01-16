@@ -10,4 +10,6 @@ import java.util.List;
 public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 
   List<Recipe> findByNameContainingIgnoreCase(String name);
+
+  List<Recipe> findAllByReviews_RatingGreaterThanEqual(int rating);
 }
