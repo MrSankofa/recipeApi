@@ -75,6 +75,16 @@ public class RecipeService {
     return recipes;
   }
 
+  public List<Recipe> getAllRecipesByMaxDifficulty(String name, int difficulty) throws NoSuchRecipeException {
+    List<Recipe> recipes = recipeRepo.findByNameContainingIgnoreCaseAndDifficultyRatingLessThanEqual(name, difficulty);
+
+    if (recipes.isEmpty()) {
+      throw new NoSuchRecipeException("Could not find any recipes with the name: " + name + " or difficult: " + difficulty);
+    }
+
+    return recipes;
+  }
+
   @Transactional
   public Recipe deleteRecipeById(Long id) throws NoSuchRecipeException {
     try {
