@@ -3,6 +3,7 @@ package com.personalProject.recipeApi.controller;
 import com.personalProject.recipeApi.exceptions.NoSuchRecipeException;
 import com.personalProject.recipeApi.model.Recipe;
 import com.personalProject.recipeApi.service.RecipeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class RecipeController {
   RecipeService recipeService;
 
   @PostMapping
-  public ResponseEntity<?> createNewRecipe(@RequestBody Recipe recipe) {
+  public ResponseEntity<?> createNewRecipe(@Valid @RequestBody Recipe recipe) {
     try {
       Recipe insertedRecipe = recipeService.createNewRecipe(recipe);
       return ResponseEntity.created(

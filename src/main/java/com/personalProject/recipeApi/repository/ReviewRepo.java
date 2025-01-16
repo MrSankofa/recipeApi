@@ -12,5 +12,5 @@ public interface ReviewRepo extends JpaRepository<Review, Long> {
 
   List<Review> findByUsername(String username);
 
-  List<Recipe> findAllByRatingGreaterThanEqual(int rating);
+  List<Review> findAllByRatingGreaterThanEqual(int rating);
 }
