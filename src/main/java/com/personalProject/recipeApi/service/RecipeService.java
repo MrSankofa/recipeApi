@@ -66,7 +66,7 @@ public class RecipeService {
   }
 
   public List<Recipe> getAllRecipesByRating(int rating) throws NoSuchRecipeException {
-    List<Recipe> recipes = recipeRepo.findAllByReviews_RatingGreaterThanEqual(rating);
+    List<Recipe> recipes = recipeRepo.findDistinctByReviews_RatingGreaterThanEqual(rating);
 
     if (recipes.isEmpty()) {
       throw new NoSuchRecipeException("Could not find any recipes with rating " + rating);
