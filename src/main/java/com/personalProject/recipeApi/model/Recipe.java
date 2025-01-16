@@ -9,8 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-
-
+import java.util.List;
 
 
 @Entity
@@ -57,6 +56,10 @@ public class Recipe {
   @Transient
   @JsonIgnore
   private URI locationURI;
+
+  public List<Review> getReviews() {
+    return new ArrayList<>(reviews); // Convert to a List
+  }
 
   public void setDifficultyRating(int difficultyRating) {
     if (difficultyRating < 0 || difficultyRating > 10) {

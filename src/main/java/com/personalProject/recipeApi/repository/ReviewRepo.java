@@ -1,4 +1,4 @@
-package com.personalProject.recipeApi.repositories;
+package com.personalProject.recipeApi.repository;
 
 import com.personalProject.recipeApi.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
