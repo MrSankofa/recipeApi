@@ -24,6 +24,23 @@ public class Step {
   private int stepNumber;
 
   @NotNull
+  public int getStepNumber() {
+    return stepNumber;
+  }
+
+  public void setStepNumber(@NotNull int stepNumber) {
+    this.stepNumber = stepNumber;
+  }
+
+  public @NotNull String getDescription() {
+    return description;
+  }
+
+  public void setDescription(@NotNull String description) {
+    this.description = description;
+  }
+
+  @NotNull
   private String description;
 
   public void setId(Long id) {
