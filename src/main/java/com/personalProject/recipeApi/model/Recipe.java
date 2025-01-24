@@ -2,6 +2,7 @@ package com.personalProject.recipeApi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,6 +37,7 @@ public class Recipe {
     return id;
   }
 
+  @NotNull
   @Column(nullable = false)
   private String name;
 
